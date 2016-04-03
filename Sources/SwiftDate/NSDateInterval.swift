@@ -40,12 +40,31 @@ public class NSDateInterval: NSObject {
         return end.timeIntervalSinceReferenceDate - start.timeIntervalSinceReferenceDate
     }
 
-    public required init(start: NSDate, end: NSDate) {
+    public init(start: NSDate, end: NSDate) {
         self.start = start
         self.end = end
     }
 
-    public convenience init(start: NSDate, interval: NSTimeInterval) {
+    convenience public init(start: NSDate, interval: NSTimeInterval) {
         self.init(start: start, end: NSDate(timeInterval: interval, sinceDate: start))
     }
+
+}
+
+extension NSDateInterval { // CustomStringConvertible
+
+    override public var description: String {
+        return "\(start) --> \(end)"
+    }
+
+}
+
+// extension NSDateInterval: Equatable {}
+
+public func == (lhs: NSDateInterval, rhs: NSDateInterval) -> Bool {
+
+    if lhs.start != rhs.start { return false }
+    if lhs.end != rhs.end { return false }
+
+    return true
 }

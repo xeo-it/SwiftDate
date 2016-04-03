@@ -144,7 +144,7 @@ public extension DateInRegion {
                 cachedFormatter.timeZone = self.region.timeZone
                 cachedFormatter.doesRelativeDateFormatting = relative
                 let value = cachedFormatter.stringFromDate(self.absoluteTime)
-                
+
                 return value
             }
     }

@@ -42,14 +42,46 @@ class NSDateSpec: QuickSpec {
                     components.year = 2012
                     components.month = 3
                     components.day = 4
+                    components.hour = 0
                     components.calendar = calendar
                     components.timeZone = NSTimeZone.defaultTimeZone()
                     let expectedDate = calendar.dateFromComponents(components)
 
                     expect(date) == expectedDate
                 }
+                
+                it("should return the specified YMD date in a specified region without DST") {
+                    let date = NSDate(year: 2012, month: 12, day: 4, region: amsterdam)
 
-                it("should return the specified YWD date in the specified region") {
+                    let calendar = NSCalendar.currentCalendar()
+                    let components = NSDateComponents()
+                    components.year = 2012
+                    components.month = 12
+                    components.day = 4
+                    components.hour = 0
+                    components.calendar = amsterdam.calendar
+                    components.timeZone = amsterdam.timeZone
+                    let expectedDate = calendar.dateFromComponents(components)
+
+                    expect(date) == expectedDate
+                }
+                
+                it("should return the specified YMD date in a specified region with DST") {
+                    let date = NSDate(year: 2012, month: 4, day: 4, region: amsterdam)
+
+                    let components = NSDateComponents()
+                    components.year = 2012
+                    components.month = 4
+                    components.day = 4
+                    components.hour = 0
+                    components.calendar = amsterdam.calendar
+                    components.timeZone = amsterdam.timeZone
+                    let expectedDate = calendar.dateFromComponents(components)
+
+                    expect(date) == expectedDate
+                }
+                
+                it("should return the specified YWD date in a different region") {
                     let date = NSDate(yearForWeekOfYear: 2012, weekOfYear: 3, weekday: 4, region: newYork)
 
                     let components = NSDateComponents()

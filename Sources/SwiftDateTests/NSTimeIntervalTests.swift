@@ -36,12 +36,29 @@ class NSTimeIntervalSpec: QuickSpec {
             }
 
             context("toString") {
-                it("should return the proper string") {
-                    let rome = Region(timeZoneName: .EuropeRome)
-                    let date = NSDate(year: 2011, month: 10, day: 9, region: rome)
+                it("should return the proper string for GMT time zone") {
+                    let gmt = Region(timeZoneName: .Gmt)
+                    let date = NSDate(year: 2011, month: 1, day: 1, region: gmt)
                     let interval = date.timeIntervalSinceReferenceDate
-                    expect(interval.toString()) == "10y 9m 5d 22h"
+                    expect(interval.toString()) == "10y"
                 }
+
+                it("should return the proper string for non-GMT time zone without DST") {
+                    let rome = Region(timeZoneName: .EuropeRome)
+                    let date = NSDate(year: 2011, month: 1, day: 1, region: rome)
+                    let interval = date.timeIntervalSinceReferenceDate
+                    let style = FormatterStyle(units: [.Year, .Month, .Day, .Hour])
+                    expect(interval.toString(style)) == "9y 11m 30d 23h"
+                }
+
+                it("should return the proper string for non-GMT time zone with DST") {
+                    let rome = Region(timeZoneName: .EuropeRome)
+                    let date = NSDate(year: 2011, month: 7, day: 1, region: rome)
+                    let interval = date.timeIntervalSinceReferenceDate
+                    let style = FormatterStyle(units: [.Year, .Month, .Day, .Hour])
+                    expect(interval.toString(style)) == "10y 5m 27d 22h"
+                }
+
             }
         }
     }

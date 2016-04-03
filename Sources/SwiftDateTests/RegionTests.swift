@@ -18,9 +18,16 @@ class DateregionSpec: QuickSpec {
 
         describe("Region") {
 
-            let region = Region()
-            let india = Region(calendarName: .Indian, timeZoneName: .AsiaKolkata, localeName: .HindiIndia)
-            let jerusalem = Region(calendarName: .Hebrew, timeZoneName: .AsiaJerusalem, localeName: .HebrewIsrael)
+            var region, tehran, india, jerusalem: Region!
+            var persianCalendar: NSCalendar!
+
+            beforeEach {
+                region = Region()
+                persianCalendar = NSCalendar(calendarIdentifier: "persian")!
+                tehran = Region(calendar: persianCalendar)
+                india = Region(calendarName: .Indian, timeZoneName: .AsiaKolkata, localeName: .HindiIndia)
+                jerusalem = Region(calendarName: .Hebrew, timeZoneName: .AsiaJerusalem, localeName: .HebrewIsrael)
+            }
 
             context("initialisation") {
 
@@ -46,6 +53,30 @@ class DateregionSpec: QuickSpec {
 
                 it("should have the specified locale") {
                     expect(jerusalem.locale) == NSLocale(localeIdentifier: "he_IL")
+                }
+
+                it("should have the default calendar") {
+                    expect(region.calendar) == NSCalendar.currentCalendar()
+                }
+
+                it("should have the default time zone") {
+                    expect(region.timeZone) == NSTimeZone.defaultTimeZone()
+                }
+
+                it("should have the default locale") {
+                    expect(region.locale) == NSLocale.currentLocale()
+                }
+
+                it("should have the default calendar") {
+                    expect(tehran.calendar) == persianCalendar
+                }
+
+                it("should have the default time zone") {
+                    expect(tehran.timeZone) == NSTimeZone.defaultTimeZone()
+                }
+
+                it("should have the default locale") {
+                    expect(tehran.locale) == NSLocale.currentLocale()
                 }
             }
 

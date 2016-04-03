@@ -49,15 +49,23 @@ public extension DateInRegion {
     ///
     /// - Parameters:
     ///     - unit: calendrical unit.
+    ///     - endIsStartOfNext: bool indicating whether the end value is the start of the nect unit.
+    ///         If this is `true` then the end value is not included in this unit.
+    ///         If this is `false` then the end value is one thousandth of a second befor the
+    ///         next unit.
     ///
     /// - Returns: a date at the end of the unit
     ///
     /// - note: This value is interpreted in the context of the calendar with which it is used
     ///
-    public func endOf(unit: NSCalendarUnit) -> DateInRegion {
+    public func endOf(unit: NSCalendarUnit, endIsStartOfNext: Bool = false) -> DateInRegion {
+        let startOfNextUnit = calendar.rangeOfUnit(unit, forDate: self.absoluteTime)!.end
+        if endIsStartOfNext {
+            return DateInRegion(absoluteTime: startOfNextUnit, region: self.region)
+        }
+
         // RangeOfUnit returns the start of the next unit; we will subtract one thousandth of a
         // second
-        let startOfNextUnit = calendar.rangeOfUnit(unit, forDate: self.absoluteTime)!.end
         let endOfThisUnit = NSDate(timeInterval: -0.001, sinceDate: startOfNextUnit)
         return DateInRegion(absoluteTime: endOfThisUnit, region: self.region)
     }

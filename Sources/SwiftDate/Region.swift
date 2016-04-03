@@ -69,8 +69,8 @@ public struct Region: Equatable {
         locale: NSLocale? = nil) {
 
             self.calendar = calendar
-            self.calendar.locale = locale ?? calendar.locale ?? NSLocale.currentLocale()
-            self.calendar.timeZone = timeZone ?? calendar.timeZone ?? NSTimeZone.defaultTimeZone()
+            self.calendar.locale = locale ?? NSLocale.currentLocale()
+            self.calendar.timeZone = timeZone ?? NSTimeZone.defaultTimeZone()
     }
 
     /// Initialise with a date components

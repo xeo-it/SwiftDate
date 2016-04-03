@@ -258,13 +258,21 @@ extension NSDate {
     /**
      Takes a date unit and returns a date at the end of that unit.
 
-     - parameter unit: unit
-     - parameter region: region of the date
+     - parameters:
+        - unit: unit
+        - endIsStartOfNext: bool indicating whether the end value is the start of the next
+            unit. If this is `true` then the end value is not included in this unit.
+              If this is `false` then the end value is one thousandth of a second befor the
+              next unit.
+        - region: region of the date
 
      - returns: the date representing that end of that unit
      */
-    public func endOf(unit: NSCalendarUnit, inRegion region: Region? = nil) -> NSDate {
-        return self.inRegion(region).endOf(unit).absoluteTime
+    public func endOf(unit: NSCalendarUnit, endIsStartOfNext: Bool = false,
+        inRegion region: Region? = nil) -> NSDate {
+
+            return self.inRegion(region).endOf(unit,
+                endIsStartOfNext: endIsStartOfNext).absoluteTime
     }
 
 

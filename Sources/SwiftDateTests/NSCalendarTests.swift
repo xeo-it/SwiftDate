@@ -37,6 +37,41 @@ class NSCalendarSpec: QuickSpec {
                 }
             }
 
+            context("rangeOfUnit") {
+
+                var date: NSDate!
+                var calendar: NSCalendar!
+                beforeEach {
+                    date = NSDate(year: 2001, month: 7, day: 4)
+                    calendar = NSCalendar(calendarIdentifier: "gregorian")!
+                }
+
+                it("should report proper range of unit for years") {
+                    let startDate = date.startOf(.Year)
+                    let endDate = date.endOf(.Year, endIsStartOfNext: true)
+                    let expectedInterval = NSDateInterval(start: startDate, end: endDate)
+                    let interval = calendar.rangeOfUnit(.Year, forDate: date)!
+                    expect(interval == expectedInterval) == true
+                }
+
+                it("should report proper range of unit for months") {
+                    let startDate = date.startOf(.Month)
+                    let endDate = date.endOf(.Month, endIsStartOfNext: true)
+                    let expectedInterval = NSDateInterval(start: startDate, end: endDate)
+                    let interval = calendar.rangeOfUnit(.Month, forDate: date)!
+                    expect(interval == expectedInterval) == true
+                }
+
+                it("should report proper range of unit for days") {
+                    let startDate = date.startOf(.Day)
+                    let endDate = date.endOf(.Day, endIsStartOfNext: true)
+                    let expectedInterval = NSDateInterval(start: startDate, end: endDate)
+                    let interval = calendar.rangeOfUnit(.Day, forDate: date)!
+                    expect(interval == expectedInterval) == true
+                }
+
+            }
+
             context("fromType") {
 
                 it("should return a Gregorian calendar") {
