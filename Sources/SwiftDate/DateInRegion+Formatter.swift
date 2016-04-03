@@ -103,9 +103,6 @@ public extension DateInRegion {
      - returns: a new string or nil if DateInRegion does not contains any valid date
      */
     public func toString(dateFormat: DateFormat) -> String? {
-        guard let _ = absoluteTime else {
-            return nil
-        }
 		let cachedFormatter = sharedDateFormatter()
 		return cachedFormatter.beginSessionContext { (void) -> (String?) in
 			let dateFormatString = dateFormat.formatString
@@ -133,26 +130,23 @@ public extension DateInRegion {
      */
 	public func toString(style: NSDateFormatterStyle? = nil, dateStyle: NSDateFormatterStyle? = nil,
         timeStyle: NSDateFormatterStyle? = nil, relative: Bool = false) -> String? {
-        guard let _ = absoluteTime else {
-            return nil
-        }
 
-		let cachedFormatter = sharedDateFormatter()
-		return cachedFormatter.beginSessionContext { (void) -> (String?) in
-			cachedFormatter.dateStyle = style ?? dateStyle ?? .NoStyle
-			cachedFormatter.timeStyle = style ?? timeStyle ?? .NoStyle
-			if cachedFormatter.dateStyle == .NoStyle && cachedFormatter.timeStyle == .NoStyle {
-				cachedFormatter.dateStyle = .MediumStyle
-				cachedFormatter.timeStyle = .MediumStyle
-			}
-			cachedFormatter.locale = self.region.locale
-			cachedFormatter.calendar = self.region.calendar
-			cachedFormatter.timeZone = self.region.timeZone
-			cachedFormatter.doesRelativeDateFormatting = relative
-			let value = cachedFormatter.stringFromDate(self.absoluteTime)
-
-			return value
-		}
+            let cachedFormatter = sharedDateFormatter()
+            return cachedFormatter.beginSessionContext { (void) -> (String?) in
+                cachedFormatter.dateStyle = style ?? dateStyle ?? .NoStyle
+                cachedFormatter.timeStyle = style ?? timeStyle ?? .NoStyle
+                if cachedFormatter.dateStyle == .NoStyle && cachedFormatter.timeStyle == .NoStyle {
+                    cachedFormatter.dateStyle = .MediumStyle
+                    cachedFormatter.timeStyle = .MediumStyle
+                }
+                cachedFormatter.locale = self.region.locale
+                cachedFormatter.calendar = self.region.calendar
+                cachedFormatter.timeZone = self.region.timeZone
+                cachedFormatter.doesRelativeDateFormatting = relative
+                let value = cachedFormatter.stringFromDate(self.absoluteTime)
+                
+                return value
+            }
     }
 
 	/**
